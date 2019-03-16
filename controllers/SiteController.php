@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\assets\AppAsset;
 use Yii;
 use yii\filters\AccessControl;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
@@ -72,13 +73,18 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
+        if (\Yii::$app->request->isPost) {
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            $model = new LoginForm();
+            if ($model->load(Yii::$app->request->post()) && $model->login()) {
+                return $this->goBack();
+            }
+        } else {
+
+            if (!Yii::$app->user->isGuest) {//判断是否是访客
+
+                return $this->goHome();
+            }
         }
 
         $model->password = '';
@@ -126,4 +132,5 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+
 }

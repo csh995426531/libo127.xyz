@@ -60,7 +60,7 @@ AppAsset::register($this);
             <div class="agile-login">
                 <ul>
                     <li><a href="registered.html"> Create Account </a></li>
-                    <li><a href="login.html">Login</a></li>
+                    <li><a href="<?php echo \yii\helpers\Url::toRoute(['site/login']) ?> ">Login</a></li>
                     <li><a href="contact.html">Help</a></li>
 
                 </ul>
