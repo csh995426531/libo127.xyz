@@ -57,14 +57,13 @@ AppAsset::register($this);
 //    ]);
 //    NavBar::end();
 //    ?>
-
+    <?= include 'header.php';?>
     <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
+
         <?= Alert::widget() ?>
         <?= $content ?>
     </div>
+    <?= include 'footer.php'; ?>
 </div>
 
 <?php $this->endBody() ?>
