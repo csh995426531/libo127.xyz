@@ -198,7 +198,6 @@
                                             <li><a href="beverages.html">Tea Bags</a></li>
                                         </ul>
                                     </div>
-
                                 </div>
                             </ul>
                         </li>
