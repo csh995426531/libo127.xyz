@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\services\SmsService;
 use Yii;
 use yii\base\Model;
 
@@ -13,9 +14,16 @@ use yii\base\Model;
  */
 class LoginForm extends Model
 {
+
+    const TYPE_PASSWORD = 'password'; //密码登陆
+    const TYPE_SMS_CODE = 'sms_code'; //短信验证码登陆
+
+    public $type;
     public $username;
     public $password;
-    public $rememberMe = true;
+    public $mobile;
+    public $smsCode;
+    public $rememberMe;
 
     private $_user = false;
 
@@ -26,12 +34,11 @@ class LoginForm extends Model
     public function rules()
     {
         return [
-            // username and password are both required
-            [['username', 'password'], 'required'],
-            // rememberMe must be a boolean value
-            ['rememberMe', 'boolean'],
-            // password is validated by validatePassword()
+            [['type'], 'in', 'range' => [self::TYPE_PASSWORD, self::TYPE_SMS_CODE], 'message' => '登陆方式错误'],
+            [['username', 'password'], 'required', 'on' => self::TYPE_PASSWORD],
             ['password', 'validatePassword'],
+            [['mobile', 'smsCode'], 'required', 'on' => self::TYPE_SMS_CODE],
+            ['smsCode', 'validateSmsCode'],
         ];
     }
 
@@ -47,8 +54,35 @@ class LoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUser();
 
-            if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
+            if (!$user) {
+                $this->addError($attribute, '无效的用户名或手机号.');
+            }
+
+            if (!$user->validatePassword($this->password)) {
+                $this->addError($attribute, '密码错误.');
+            }
+        }
+    }
+
+    /**
+     * 验证短信验证码
+     * @param $attribute
+     * @param $params
+     */
+    public function validateSmsCode($attribute, $params)
+    {
+        if (!$this->hasErrors()) {
+
+            $this->_user = UserIdentity::findByMobile($this->mobile);
+
+            if (!$this->_user ) {
+                $this->addError($attribute, '无效的手机号.');
+            }
+
+            $smsService = new SmsService();
+
+            if (!$smsService->validateSmsCode($this->_user->id, SmsCode::EVENT_LOGIN, $this->smsCode)) {
+                $this->addError($attribute, $smsService->getMessage());
             }
         }
     }
@@ -73,7 +107,13 @@ class LoginForm extends Model
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = UserIdentity::findByUsername($this->username);
+
+            $this->_user = UserIdentity::findByMobile($this->username);
+
+            if (empty($this->_user)) {
+
+                $this->_user = UserIdentity::findByUsername($this->username);
+            }
         }
 
         return $this->_user;

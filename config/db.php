@@ -2,7 +2,7 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=libo',
+    'dsn' => 'mysql:host=192.168.0.103;dbname=libo',
     'username' => 'root',
     'password' => 'asd123.',
     'charset' => 'utf8',

@@ -32,6 +32,11 @@ class UserIdentity extends User implements \yii\web\IdentityInterface
         return self::findOne(['user_name' => $username]);
     }
 
+    public static function findByMobile($mobile)
+    {
+        return self::findOne(['mobile' => $mobile]);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -64,6 +69,6 @@ class UserIdentity extends User implements \yii\web\IdentityInterface
      */
     public function validatePassword($password)
     {
-        return $this->password === $password;
+        return $this->password === md5($password);
     }
 }
