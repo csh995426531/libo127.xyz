@@ -77,6 +77,9 @@ class SiteController extends Controller
 
         if (\Yii::$app->request->isPost) {
 
+            $params = Yii::$app->request->post('LoginForm');
+            $model->setScenario($params['type']);
+
             if ($model->load(Yii::$app->request->post()) && $model->login()) {
                 return $this->goBack();
             }
@@ -88,6 +91,7 @@ class SiteController extends Controller
             }
         }
 
+        $model->type = LoginForm::TYPE_PASSWORD;
         $model->password = '';
         return $this->render('login', [
             'model' => $model,

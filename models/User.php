@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "lb_user".
  *
  * @property string $id
- * @property string $user_name 昵称
+ * @property string $username 昵称
  * @property string $password 密码
  * @property string $auth_key 会话令牌
  * @property string $access_token 授权令牌
@@ -38,7 +38,7 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             [['mobile', 'status', 'create_time', 'update_time'], 'integer'],
-            [['user_name', 'password', 'auth_key', 'access_token'], 'string', 'max' => 200],
+            [['username', 'password', 'auth_key', 'access_token'], 'string', 'max' => 200],
         ];
     }
 
@@ -49,7 +49,7 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_name' => 'user_name',
+            'username' => 'username',
             'password' => 'Password',
             'auth_key' => 'Auth Key',
             'access_token' => 'Access Token',

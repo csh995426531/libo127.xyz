@@ -56,10 +56,10 @@ class LoginForm extends Model
 
             if (!$user) {
                 $this->addError($attribute, '无效的用户名或手机号.');
-            }
-
-            if (!$user->validatePassword($this->password)) {
-                $this->addError($attribute, '密码错误.');
+            } else {
+                if (!$user->validatePassword($this->password)) {
+                    $this->addError($attribute, '密码错误.');
+                }
             }
         }
     }

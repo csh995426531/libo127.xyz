@@ -29,7 +29,7 @@ class UserIdentity extends User implements \yii\web\IdentityInterface
      */
     public static function findByUsername($username)
     {
-        return self::findOne(['user_name' => $username]);
+        return self::findOne(['username' => $username]);
     }
 
     public static function findByMobile($mobile)
