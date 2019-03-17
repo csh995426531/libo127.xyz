@@ -45,10 +45,14 @@
             </div>
             <div class="agile-login">
                 <ul>
-                    <li><a href="registered.html"> Create Account </a></li>
-                    <li><a href="<?php echo \yii\helpers\Url::toRoute(['site/login']) ?> ">Login</a></li>
+                    <?php if (Yii::$app->user->isGuest) {?>
+                        <li><a href="registered.html"> Create Account </a></li>
+                        <li><a href="<?php echo \yii\helpers\Url::toRoute(['site/login']) ?> ">Login</a></li>
+                    <?php } else {?>
+                        <li><a href="registered.html"> My Account </a></li>
+                        <li><a href="<?php echo \yii\helpers\Url::toRoute(['site/logout']) ?> ">Logout</a></li>
+                    <?php }?>
                     <li><a href="contact.html">Help</a></li>
-
                 </ul>
             </div>
             <div class="product_list_header">

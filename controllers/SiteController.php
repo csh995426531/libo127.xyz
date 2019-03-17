@@ -3,8 +3,11 @@
 namespace app\controllers;
 
 use app\assets\AppAsset;
+use app\services\SmsService;
 use Yii;
+use yii\captcha\CaptchaValidator;
 use yii\filters\AccessControl;
+use yii\helpers\HtmlPurifier;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\Response;
@@ -29,12 +32,17 @@ class SiteController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+                    [
+                        'actions' => ['login', 'captcha', 'get-sms-code'],
+                        'allow' => true,
+                        'roles' => ['?'],
+                    ],
                 ],
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+//                    'logout' => ['post'],
                 ],
             ],
         ];
@@ -51,7 +59,12 @@ class SiteController extends Controller
             ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+                'backColor'=> 0xFFFFFF,
+                'maxLength' => 5,       // 最多生成几个字符
+                'minLength' => 5,       // 最少生成几个字符
+                'fixedVerifyCode' => substr(md5(time()),11,5), //每次都刷新验证码
+                'height'=>40,//高度
+                'width' => 90,  //宽度
             ],
         ];
     }
@@ -67,9 +80,8 @@ class SiteController extends Controller
     }
 
     /**
-     * Login action.
-     *
-     * @return Response|string
+     * 登陆
+     * @return string|Response
      */
     public function actionLogin()
     {
@@ -91,11 +103,39 @@ class SiteController extends Controller
             }
         }
 
-        $model->type = LoginForm::TYPE_PASSWORD;
+        $model->type = LoginForm::TYPE_SMS_CODE;
         $model->password = '';
         return $this->render('login', [
             'model' => $model,
         ]);
+    }
+
+    public function actionGetSmsCode()
+    {
+        $response = ['status' => false, 'msg' => '失败'];
+
+        $mobile = Yii::$app->request->get('mobile');
+        $verifyCode = Yii::$app->request->get('verify_code');
+
+        if (empty($mobile)) {
+            return $response["msg"]="手机号不能为空";
+        }
+
+        if (empty($verifyCode)) {
+            return $response["msg"]="图片验证码不能为空";
+        }
+
+        $imgVerifyCode = HtmlPurifier::process($verifyCode);
+        $caprcha = new CaptchaValidator();
+        $verifyRs = $caprcha->validate($imgVerifyCode);
+
+        if($verifyRs==false){
+            return $response["msg"]="图形验证码错误";
+        }
+
+        $smsService = new SmsService();
+        $smsService->send();
+
     }
 
     /**

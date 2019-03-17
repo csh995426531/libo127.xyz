@@ -24,6 +24,7 @@ class LoginForm extends Model
     public $mobile;
     public $smsCode;
     public $rememberMe;
+    public $verifyCode;
 
     private $_user = false;
 
@@ -76,13 +77,13 @@ class LoginForm extends Model
             $this->_user = UserIdentity::findByMobile($this->mobile);
 
             if (!$this->_user ) {
-                $this->addError($attribute, '无效的手机号.');
-            }
+                $this->addError($attribute, '该手机号还未注册.');
+            } else {
+                $smsService = new SmsService();
 
-            $smsService = new SmsService();
-
-            if (!$smsService->validateSmsCode($this->_user->id, SmsCode::EVENT_LOGIN, $this->smsCode)) {
-                $this->addError($attribute, $smsService->getMessage());
+                if (!$smsService->validateSmsCode($this->_user->id, SmsCode::EVENT_LOGIN, $this->smsCode)) {
+                    $this->addError($attribute, $smsService->getMessage());
+                }
             }
         }
     }

@@ -5,6 +5,8 @@
  * Date: 2019/3/17
  * Time: 14:08
  */
+namespace app\services;
+
 Trait ErrorTrait
 {
     public $errorCode = 500;

@@ -12,7 +12,6 @@
                 <h3>Whole Spices Products Are Now On Line With Us</h3>
             </div>
         </li>
-
         <li>
             <img src="images/44.jpg" alt="" />
             <div class="slide-desc">
@@ -20,6 +19,7 @@
             </div>
         </li>
     </ul>
+
     <!-- //main-slider -->
     <!-- //top-header and slider -->
     <!-- top-brands -->

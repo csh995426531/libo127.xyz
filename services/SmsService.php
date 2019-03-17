@@ -11,7 +11,7 @@ use app\models\SmsCode;
 
 class SmsService
 {
-    use \ErrorTrait;
+    use ErrorTrait;
 
     /**
      * 验证验证码
@@ -39,6 +39,22 @@ class SmsService
             $this->setError(Exceptions::SMS_CODE_TIME_OUT_ERR_CODE, '验证码错误');
             return false;
         }
+    }
 
+    /**
+     * 发送
+     */
+    public function send($mobile, $event)
+    {
+
+        if (in_array($event, [SmsCode::EVENT_REGISTER, SmsCode::EVENT_LOGIN])) {
+
+            $template = '';
+
+        } else {
+
+            $this->setError(Exceptions::SMS_CODE_EVENT_ERR_CODE, '事件错误');
+            return false;
+        }
     }
 }

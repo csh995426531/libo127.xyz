@@ -57,12 +57,9 @@ AppAsset::register($this);
 //    ]);
 //    NavBar::end();
 //    ?>
-<!--    --><?//= include 'header.php';?>
     <?php $this->beginContent('@app/views/layouts/header.php'); ?>
     <?php $this->endContent(); ?>
     <div class="container">
-
-        <?= Alert::widget() ?>
         <?= $content ?>
     </div>
     <?php $this->beginContent('@app/views/layouts/footer.php'); ?>
