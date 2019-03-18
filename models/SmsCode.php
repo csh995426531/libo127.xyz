@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "lb_sms_code".
  *
  * @property string $id
- * @property string $user_id 用户id
+ * @property string $mobile 用户id
  * @property string $event 事件
  * @property string $code 验证码
  * @property int $status 是否使用 1:未使用 2:已使用
@@ -38,7 +38,7 @@ class SmsCode extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'status', 'create_time', 'update_time'], 'integer'],
+            [['mobile', 'status', 'create_time', 'update_time'], 'integer'],
             [['event', 'code'], 'string', 'max' => 200],
         ];
     }
@@ -50,7 +50,7 @@ class SmsCode extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_id' => 'User ID',
+            'mobile' => '手机号',
             'event' => 'Event',
             'code' => 'Code',
             'status' => 'Status',

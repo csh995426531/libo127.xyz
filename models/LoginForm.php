@@ -81,7 +81,7 @@ class LoginForm extends Model
             } else {
                 $smsService = new SmsService();
 
-                if (!$smsService->validateSmsCode($this->_user->id, SmsCode::EVENT_LOGIN, $this->smsCode)) {
+                if (!$smsService->validateSmsCode($this->_user->mobile, SmsCode::EVENT_LOGIN, $this->smsCode)) {
                     $this->addError($attribute, $smsService->getMessage());
                 }
             }
