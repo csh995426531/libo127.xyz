@@ -41,6 +41,8 @@ class SmsService
             $this->setError(Exceptions::SMS_CODE_TIME_OUT_ERR_CODE, '验证码错误');
             return false;
         }
+
+        return true;
     }
 
     /**
@@ -111,14 +113,15 @@ class SmsService
      * @return bool
      */
     private function send($text, $mobile)
-    {
+    {return true;
         //初始化client,apikey作为所有请求的默认值
-        $client = YunpianClient::create(Yii::$app->params['yunPian_apiKey']);
+        $client = YunpianClient::create(Yii::$app->params['fc00da8167ef4712267ae1d92afe7261']);
 
-        $param = [YunpianClient::MOBILE => '+86'.$mobile,YunpianClient::TEXT => $text];
+        $param = [YunpianClient::MOBILE => $mobile, YunpianClient::TEXT => $text];
         $r = $client->sms()->single_send($param);
-var_dump($r->code(),$r->msg());die;
-        if($r->isSucc()){ return true;
+
+        if($r->isSucc()){
+            return true;
             //$r->data()
         } else {
             return false;
