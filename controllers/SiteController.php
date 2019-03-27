@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\assets\AppAsset;
+use app\models\RegisterForm;
 use app\models\SmsCode;
 use app\services\SmsService;
 use app\services\UserService;
@@ -120,10 +121,17 @@ class SiteController extends Controller
     {
         $response = ['status' => 500, 'msg' => '失败'];
 
+        $event = Yii::$app->request->get('event', SmsCode::EVENT_LOGIN);
         $mobile = Yii::$app->request->get('mobile');
         $verifyCode = Yii::$app->request->get('verify_code');
 
         try {
+
+            $events = SmsCode::getEventOptions();
+
+            if (!isset($events[$event])) {
+                throw new \Exception('非法操作');
+            }
 
             if (empty($mobile)) {
                 throw new \Exception('手机号不能为空');
@@ -137,20 +145,22 @@ class SiteController extends Controller
             $captcha = new CaptchaValidator();
             $verifyRs = $captcha->validate($imgVerifyCode);
 
-            if($verifyRs==false){
+            if ($verifyRs == false) {
                 throw new \Exception('图形验证码不正确');
             }
 
-            $userService = new UserService();
-            $user = $userService->findByMobile($mobile);
+            if ($event != SmsCode::EVENT_REGISTER) {
 
-            if (empty($user)) {
+                $userService = new UserService();
+                $user = $userService->findByMobile($mobile);
 
-                throw new \Exception('该手机号还未注册用户');
+                if (empty($user)) {
+                    throw new \Exception('该手机号还未注册用户');
+                }
             }
 
             $smsService = new SmsService();
-            $result = $smsService->sendCode($mobile, SmsCode::EVENT_LOGIN);
+            $result = $smsService->sendCode($mobile, $event);
 
             if ($result == false) {
 
@@ -166,6 +176,23 @@ class SiteController extends Controller
         }
 
         return json_encode($response);
+    }
+
+    public function actionRegister()
+    {
+
+        $model = new RegisterForm();
+
+        if (\Yii::$app->request->isPost){
+
+            if ($model->load(Yii::$app->request->post()) && $model->create()) {
+                return $this->goBack();
+            }
+        }
+
+        return $this->render('register', [
+            'model' => $model,
+        ]);
     }
 
     /**

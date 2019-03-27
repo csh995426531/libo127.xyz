@@ -69,6 +69,7 @@ class LoginForm extends Model
      * 验证短信验证码
      * @param $attribute
      * @param $params
+     * @return bool
      */
     public function validateSmsCode($attribute, $params)
     {
@@ -77,13 +78,15 @@ class LoginForm extends Model
             $this->_user = UserIdentity::findByMobile($this->mobile);
 
             if (!$this->_user ) {
-                $this->addError($attribute, '该手机号还未注册.');echo 1;
+                $this->addError($attribute, '该手机号还未注册.');
             } else {
                 $smsService = new SmsService();
 
                 if (!$smsService->validateSmsCode($this->_user->mobile, SmsCode::EVENT_LOGIN, $this->smsCode)) {
-                    $this->addError($attribute, $smsService->getMessage());echo 2;
+                    $this->addError($attribute, $smsService->getMessage());
                 }
+
+                return true;
             }
         }
     }

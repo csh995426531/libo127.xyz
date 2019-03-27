@@ -58,4 +58,12 @@ class SmsCode extends \yii\db\ActiveRecord
             'update_time' => 'Update Time',
         ];
     }
+
+    public static function getEventOptions()
+    {
+        return [
+            self::EVENT_REGISTER => '注册',
+            self::EVENT_LOGIN => '登陆',
+        ];
+    }
 }
