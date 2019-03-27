@@ -48,10 +48,6 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= Html::submitInput('注册', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
             <?php ActiveForm::end(); ?>
         </div>
-        <p style="margin: auto">
-            <a href="<?= \yii\helpers\Url::toRoute(['site/register']) ?>">点击登陆</a> (或)
-            <a href="<?= \yii\helpers\Url::toRoute(['site/index']) ?>">返回首页<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></a>
-        </p>
     </div>
 </div>
 <!-- //login -->

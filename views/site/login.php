@@ -64,10 +64,6 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php ActiveForm::end(); ?>
 
         </div>
-        <p>
-            <a href="<?= \yii\helpers\Url::toRoute(['site/register']) ?>">点击注册</a> (或)
-            <a href="<?= \yii\helpers\Url::toRoute(['site/index']) ?>">返回首页<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></a>
-        </p>
     </div>
 </div>
 <!-- //login -->

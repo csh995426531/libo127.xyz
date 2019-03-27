@@ -41,7 +41,7 @@
     <div class="agileits_header">
         <div class="container">
             <div class="w3l_offers">
-                <p>SALE UP TO 70% OFF. USE CODE "SALE70%" . <a href="products.html">SHOP NOW</a></p>
+                <p>这里是广告栏</a></p>
             </div>
             <div class="agile-login">
                 <ul>
@@ -49,7 +49,7 @@
                         <li><a href="<?php echo \yii\helpers\Url::toRoute(['site/register']) ?> ">注册</a></li>
                         <li><a href="<?php echo \yii\helpers\Url::toRoute(['site/login']) ?> ">登陆</a></li>
                     <?php } else {?>
-                        <li><a href="<?php echo \yii\helpers\Url::toRoute(['user/index']) ?>">我的账号</a></li>
+                        <li><a href="<?php echo \yii\helpers\Url::toRoute(['user/index']) ?>">我的</a></li>
                         <li><a href="<?php echo \yii\helpers\Url::toRoute(['site/logout']) ?>">退出</a></li>
                     <?php }?>
                     <li><a href="contact.html">帮助</a></li>
@@ -68,18 +68,12 @@
 
     <div class="logo_products">
         <div class="container">
-            <div class="w3ls_logo_products_left1">
-                <ul class="phone_email">
-                    <li><i class="fa fa-phone" aria-hidden="true"></i>Order online or call us : (+0123) 234 567</li>
-
-                </ul>
-            </div>
             <div class="w3ls_logo_products_left">
-                <h1><a href="index.html">super Market</a></h1>
+                <h1><a href="index.html">微课堂</a></h1>
             </div>
             <div class="w3l_search">
                 <form action="#" method="post">
-                    <input type="search" name="Search" placeholder="Search for a Product..." required="">
+                    <input type="search" name="Search" placeholder="搜索" required="">
                     <button type="submit" class="btn btn-default search" aria-label="Left Align">
                         <i class="fa fa-search" aria-hidden="true"> </i>
                     </button>

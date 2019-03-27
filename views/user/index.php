@@ -15,21 +15,46 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="container">
         <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
             <li><a href="<?= \yii\helpers\Url::toRoute(['site/index']) ?>"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>首页</a></li>
-            <li class="active">我的账号</li>
+            <li class="active">我的</li>
         </ol>
     </div>
 </div>
-<div class="login">
-    <div class="container">
-        <h4>
-            <span id="login-type-password" class="login_type checked_type" data-type="password" data-checked="true">账号密码登陆</span> |
-            <span id="login-type-sms-code" class="login_type" data-type="sms_code" data-checked="false">短信验证登陆</span>
-        </h4>
-
-        <p>
-            <a href="<?= \yii\helpers\Url::toRoute(['site/register']) ?>">点击注册</a> (或) 返回
-            <a href="<?= \yii\helpers\Url::toRoute(['site/index']) ?>">首页<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></a>
-        </p>
+<div>
+    <div class="container" style="color: #777;font-size: 0.7em">
+        <div class="div-1">
+            <div class="row row-1">
+                <div class="user-setting-avatar row ">
+                    <label class="col-xs-push-3 col-xs-6" style="cursor:pointer" for="changeAvatar"><img class="img-circle" style="width:80px;height:80px;" src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/6d/6d2e2ecb43e756ceb036ebbc3f7d0ef9c66cc494_full.jpg" alt="小毒">
+                    </label>
+                </div>
+                <input type="file" id="changeAvatar" name="imageFile" style="position:absolute;left:-20000px; top:-20000px" value="修改头像">
+            </div>
+            <div class="row " style="margin: 18px 0">
+                <div class="col-xs-4">用户名</div>
+                <div class="col-xs-6" style="text-align:right;"><?= $user->username;?></div>
+                <div class="col-xs-1">></div>
+            </div>
+            <div class="row" style="margin: 18px 0">
+                <div class="col-xs-4">密码</div>
+                <div class="col-xs-6" style="text-align:right;">******</div>
+                <div class="col-xs-1">></div>
+            </div>
+            <div class="row" style="margin: 18px 0">
+                <div class="col-xs-4">手机号</div>
+                <div class="col-xs-6" style="text-align:right;"><?= $user->mobile;?></div>
+                <div class="col-xs-1">></div>
+            </div>
+            <div class="row " style="margin: 18px 0">
+                <div class="col-xs-4">账户</div>
+                <div class="col-xs-6" style="text-align:right;">10.0</div>
+                <div class="col-xs-1">></div>
+            </div>
+            <div class="row" style="margin: 18px 0">
+                <div class="col-xs-4">已购</div>
+                <div class="col-xs-6" style="text-align:right;">1</div>
+                <div class="col-xs-1">></div>
+            </div>
+        </div>
     </div>
 </div>
 <!-- //login -->
