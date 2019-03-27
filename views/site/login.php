@@ -115,9 +115,7 @@ $this->registerJs("
 
                 $.get(url, {mobile:mobile, verify_code:verifyCode}, function(result){
                     result = JSON.parse(result)
-                    if (result.status == 500) {
-                        alert(result.msg)
-                    }
+                    alert(result.msg)
                 });
             }
         }

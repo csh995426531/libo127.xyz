@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= Html::submitInput('注册', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
             <?php ActiveForm::end(); ?>
         </div>
-        <p>
+        <p style="margin: auto">
             <a href="<?= \yii\helpers\Url::toRoute(['site/register']) ?>">点击登陆</a> (或)
             <a href="<?= \yii\helpers\Url::toRoute(['site/index']) ?>">返回首页<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></a>
         </p>
@@ -72,11 +72,9 @@ $this->registerJs("
 
                 var url = $('#smsCodeUrl').data('url');
 
-                $.get(url, {mobile:mobile, verify_code:verifyCode, type:'register'}, function(result){
+                $.get(url, {mobile:mobile, verify_code:verifyCode, event:'register'}, function(result){
                     result = JSON.parse(result)
-                    if (result.status == 500) {
-                        alert(result.msg)
-                    }
+                     alert(result.msg)
                 });
             }
         }

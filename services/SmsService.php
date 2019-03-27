@@ -27,7 +27,8 @@ class SmsService
         $code = SmsCode::find()->where([
             'mobile' => $mobile,
             'event' => $event,
-            'code' => $code
+            'code' => $code,
+            'status' => SmsCode::STATUS_NOT_USED
         ])->orderBy(['id' => SORT_DESC])->one();
 
         if (empty($code)) {
@@ -41,6 +42,20 @@ class SmsService
             $this->setError(Exceptions::SMS_CODE_TIME_OUT_ERR_CODE, '验证码错误');
             return false;
         }
+
+//        $updated = SmsCode::updateAll([
+//            'status' => SmsCode::STATUS_USED,
+//            'update_time' => time()
+//        ], 'id=:id and status=:status', [
+//            ':id' => $code->id,
+//            ':status' => SmsCode::STATUS_NOT_USED
+//        ]);
+//
+//        if ($updated !== 1) {
+//
+//            $this->setError(Exceptions::SMS_CODE_UPDATE_ERR_CODE, '验证码错误');
+//            return false;
+//        }
 
         return true;
     }

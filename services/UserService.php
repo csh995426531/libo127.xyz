@@ -11,6 +11,12 @@ use app\models\User;
 
 class UserService
 {
+    /**
+     * 创建用户
+     * @param $mobile
+     * @return bool
+     * @throws \yii\base\Exception
+     */
     public function create($mobile)
     {
         $model = new User();
@@ -18,7 +24,7 @@ class UserService
         $model->password = '';
         $model->auth_key = \Yii::$app->security->generateRandomString();
         $model->access_token = \Yii::$app->security->generateRandomString();
-        $model->mobile = $model;
+        $model->mobile = $mobile;
         $model->status = User::STATUS_ACTIVE;
         $model->create_time = time();
         $model->update_time = time();

@@ -60,13 +60,23 @@ class RegisterForm extends Model
         if ($this->validate()) {
 
             $service = new UserService();
-            if ($service->create($this->mobile)) {
 
-                $user = UserIdentity::findByMobile($this->mobile);
+            $user = UserIdentity::findByMobile($this->mobile);
 
-                if ($user) {
+            if (!empty($user)) {
+                $this->addError('mobile', '该手机号已注册，请直接登陆');
+            } else {
+                if (!$service->create($this->mobile)) {
+                    $this->addError('mobile', '注册失败');
+                } else {
 
-                    return Yii::$app->user->login($user, 0);
+                    $user = UserIdentity::findByMobile($this->mobile);
+                    if (!$user) {
+                        $this->addError('mobile', '注册失败');
+                    } else {
+
+                        return Yii::$app->user->login($user, 0);
+                    }
                 }
             }
         }

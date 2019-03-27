@@ -149,13 +149,16 @@ class SiteController extends Controller
                 throw new \Exception('图形验证码不正确');
             }
 
+            $userService = new UserService();
+            $user = $userService->findByMobile($mobile);
+
             if ($event != SmsCode::EVENT_REGISTER) {
-
-                $userService = new UserService();
-                $user = $userService->findByMobile($mobile);
-
                 if (empty($user)) {
                     throw new \Exception('该手机号还未注册用户');
+                }
+            } elseif ($event == SmsCode::EVENT_REGISTER && !empty($user)) {
+                if (empty($user)) {
+                    throw new \Exception('该手机号已注册，请直接登陆');
                 }
             }
 
@@ -178,6 +181,10 @@ class SiteController extends Controller
         return json_encode($response);
     }
 
+    /**
+     * 注册
+     * @return string|Response
+     */
     public function actionRegister()
     {
 

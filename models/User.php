@@ -37,7 +37,7 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['mobile', 'status', 'create_time', 'update_time'], 'integer'],
+            [['status', 'create_time', 'update_time'], 'integer'],
             [['username', 'password', 'auth_key', 'access_token'], 'string', 'max' => 200],
         ];
     }

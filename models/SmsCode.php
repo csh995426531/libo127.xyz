@@ -38,7 +38,7 @@ class SmsCode extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['mobile', 'status', 'create_time', 'update_time'], 'integer'],
+            [['status', 'create_time', 'update_time'], 'integer'],
             [['event', 'code'], 'string', 'max' => 200],
         ];
     }
