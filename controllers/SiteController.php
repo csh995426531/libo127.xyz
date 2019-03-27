@@ -3,7 +3,9 @@
 namespace app\controllers;
 
 use app\assets\AppAsset;
+use app\models\SmsCode;
 use app\services\SmsService;
+use app\services\UserService;
 use Yii;
 use yii\captcha\CaptchaValidator;
 use yii\filters\AccessControl;
@@ -62,7 +64,7 @@ class SiteController extends Controller
                 'backColor'=> 0xFFFFFF,
                 'maxLength' => 5,       // 最多生成几个字符
                 'minLength' => 5,       // 最少生成几个字符
-                'fixedVerifyCode' => substr(md5(time()),11,5), //每次都刷新验证码
+//                'fixedVerifyCode' => substr(md5(time()),11,5), //每次都刷新验证码
                 'height'=>40,//高度
                 'width' => 90,  //宽度
             ],
@@ -111,38 +113,60 @@ class SiteController extends Controller
     }
 
     /**
-     * 获取短信验证码
-     * @return string
+     * 获取手机验证码
+     * @return array
      */
     public function actionGetSmsCode()
     {
-        $response = ['status' => false, 'msg' => '失败'];
+        $response = ['status' => 500, 'msg' => '失败'];
 
         $mobile = Yii::$app->request->get('mobile');
         $verifyCode = Yii::$app->request->get('verify_code');
 
-        if (empty($mobile)) {
-            return $response["msg"]="手机号不能为空";
+        try {
+
+            if (empty($mobile)) {
+                throw new \Exception('手机号不能为空');
+            }
+
+            if (empty($verifyCode)) {
+                throw new \Exception('图片验证码不能为空');
+            }
+
+            $imgVerifyCode = HtmlPurifier::process($verifyCode);
+            $captcha = new CaptchaValidator();
+            $verifyRs = $captcha->validate($imgVerifyCode);
+
+            if($verifyRs==false){
+                throw new \Exception('图形验证码不正确');
+            }
+
+            $userService = new UserService();
+            $user = $userService->findByMobile($mobile);
+
+            if (empty($user)) {
+
+                throw new \Exception('该手机号还未注册用户');
+            }
+
+            $smsService = new SmsService();
+            $result = $smsService->sendCode($mobile, SmsCode::EVENT_LOGIN);
+
+            if ($result == false) {
+
+                throw new \Exception('验证码发送失败');
+            }
+
+            $response['status'] = 200;
+            $response['msg'] = '发送成功';
+
+        } catch (\Exception $e) {
+
+            $response["msg"] = $e->getMessage();
         }
 
-        if (empty($verifyCode)) {
-            return $response["msg"]="图片验证码不能为空";
-        }
-
-        $imgVerifyCode = HtmlPurifier::process($verifyCode);
-        $caprcha = new CaptchaValidator();
-        $verifyRs = $caprcha->validate($imgVerifyCode);
-
-        if($verifyRs==false){
-            return $response["msg"]="图形验证码错误";
-        }
-
-        $smsService = new SmsService();
-        $smsService->send();
-
+        return json_encode($response);
     }
-
-
 
     /**
      * Logout action.

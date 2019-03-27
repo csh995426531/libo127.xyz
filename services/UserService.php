@@ -14,7 +14,7 @@ class UserService
     public function create($mobile)
     {
         $model = new User();
-        $model->user_name = 'lb_' . $mobile;
+        $model->username = 'lb_' . $mobile;
         $model->password = '';
         $model->auth_key = \Yii::$app->security->generateRandomString();
         $model->access_token = \Yii::$app->security->generateRandomString();
@@ -25,4 +25,25 @@ class UserService
 
         return $model->save();
     }
+
+    /**
+     * 获取用户
+     * @param $userId
+     * @return null|static
+     */
+    public function get($userId)
+    {
+        return User::findOne($userId);
+    }
+
+    /**
+     * 根据手机号查询用户
+     * @param $mobile
+     * @return null|static
+     */
+    public function findByMobile($mobile)
+    {
+        return User::findOne(['mobile' => $mobile]);
+    }
+
 }

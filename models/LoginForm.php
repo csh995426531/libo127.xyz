@@ -39,7 +39,7 @@ class LoginForm extends Model
             [['username', 'password'], 'required', 'on' => self::TYPE_PASSWORD],
             ['password', 'validatePassword'],
             [['mobile', 'smsCode'], 'required', 'on' => self::TYPE_SMS_CODE],
-            ['smsCode', 'validateSmsCode'],
+            ['smsCode', 'validateSmsCode', 'message' => '短信验证码错误'],
         ];
     }
 
@@ -77,12 +77,12 @@ class LoginForm extends Model
             $this->_user = UserIdentity::findByMobile($this->mobile);
 
             if (!$this->_user ) {
-                $this->addError($attribute, '该手机号还未注册.');
+                $this->addError($attribute, '该手机号还未注册.');echo 1;
             } else {
                 $smsService = new SmsService();
 
-                if (!$smsService->validateSmsCode($this->_user->id, SmsCode::EVENT_LOGIN, $this->smsCode)) {
-                    $this->addError($attribute, $smsService->getMessage());
+                if (!$smsService->validateSmsCode($this->_user->mobile, SmsCode::EVENT_LOGIN, $this->smsCode)) {
+                    $this->addError($attribute, $smsService->getMessage());echo 2;
                 }
             }
         }

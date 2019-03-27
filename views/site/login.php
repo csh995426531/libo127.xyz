@@ -114,7 +114,10 @@ $this->registerJs("
                 var url = $('#smsCodeUrl').data('url');
 
                 $.get(url, {mobile:mobile, verify_code:verifyCode}, function(result){
-                    console.log(result);
+                    result = JSON.parse(result)
+                    if (result.status == 500) {
+                        alert(result.msg)
+                    }
                 });
             }
         }
