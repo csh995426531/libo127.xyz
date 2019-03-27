@@ -110,6 +110,10 @@ class SiteController extends Controller
         ]);
     }
 
+    /**
+     * 获取短信验证码
+     * @return string
+     */
     public function actionGetSmsCode()
     {
         $response = ['status' => false, 'msg' => '失败'];
@@ -137,6 +141,8 @@ class SiteController extends Controller
         $smsService->send();
 
     }
+
+
 
     /**
      * Logout action.

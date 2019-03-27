@@ -46,7 +46,7 @@
             <div class="agile-login">
                 <ul>
                     <?php if (Yii::$app->user->isGuest) {?>
-                        <li><a href="registered.html"> Create Account </a></li>
+                        <li><a href="<?php echo \yii\helpers\Url::toRoute(['site/register']) ?> "> Create Account </a></li>
                         <li><a href="<?php echo \yii\helpers\Url::toRoute(['site/login']) ?> ">Login</a></li>
                     <?php } else {?>
                         <li><a href="registered.html"> My Account </a></li>

@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'alt'=>'换一个',
                         'style'=>'cursor:pointer;',
                         // 添加点击事件
-                        'onclick' => 'this.src=this.src+"&c="+Math.random();',
+//                        'onclick' => 'this.src=this.src+"&c="+Math.random();',
                     ],
                     'template' => '<div class="row"><div class="col-xs-7 col-sm-7  col-lg-7" style="padding: 0px">{input}</div><div class="col-xs-5 col-sm-5  col-lg-5" style="padding: 0px">{image}</div></div>',
                     'options' => ['placeholder' => '图片验证码', 'class' => 'row']
@@ -65,8 +65,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
         </div>
         <p>
-            <a href="<?= \yii\helpers\Url::toRoute(['site/register']) ?>">点击注册</a> (或) 返回
-            <a href="<?= \yii\helpers\Url::toRoute(['site/index']) ?>">首页<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></a>
+            <a href="<?= \yii\helpers\Url::toRoute(['site/register']) ?>">点击注册</a> (或)
+            <a href="<?= \yii\helpers\Url::toRoute(['site/index']) ?>">返回首页<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></a>
         </p>
     </div>
 </div>
